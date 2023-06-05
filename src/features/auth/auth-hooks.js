@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useMemo } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { appConfig } from '@/data'
@@ -64,11 +63,11 @@ const useLogout = () => {
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      queryClient.setQueryData('user', null)
+      queryClient.setQueryData(['user'], null)
       notificationDispatch(
         setNotification({
           type: NOTIFICATION_TYPES.SUCCESS,
-          message: 'Login successful',
+          message: 'Good bye!',
         })
       )
     },
@@ -94,23 +93,9 @@ const getLoggedUser = () => {
 const useAuth = () => {
   const queryClient = useQueryClient()
 
-  return useMemo(() => {
-    const loggedUserJSON = localStorage.getItem(
-      appConfig.application.LOGGED_USER_KEY
-    )
+  const user = queryClient.getQueryData(['user'])
 
-    let user
-
-    if (loggedUserJSON) {
-      user = JSON.parse(loggedUserJSON)
-    } else {
-      user = null
-    }
-
-    queryClient.setQueryData(['user'], user)
-
-    return { user }
-  }, [])
+  return { user: user }
 }
 
 export { useLogin, useLogout, useAuth, getLoggedUser }

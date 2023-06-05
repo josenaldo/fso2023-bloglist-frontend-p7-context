@@ -9,9 +9,12 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { NotificationContextProvider } from '@/features/notification'
 import { theme } from '@/styles'
 import App from '@/pages/App'
+import { getLoggedUser } from '@/features/auth'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 const queryClient = new QueryClient()
+
+await queryClient.prefetchQuery({ queryKey: ['user'], queryFn: getLoggedUser })
 
 root.render(
   <React.StrictMode>

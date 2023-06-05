@@ -13,7 +13,7 @@ import UserMenu from './UserMenu'
 const NavBar = () => {
   const navigate = useNavigate()
   const auth = useAuth()
-  const logout = useLogout()
+  const { mutate: logout } = useLogout()
 
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
