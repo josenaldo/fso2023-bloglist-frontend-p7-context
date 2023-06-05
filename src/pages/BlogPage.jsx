@@ -1,4 +1,4 @@
-import { NotFound } from '@/features/ui'
+import { ErrorBox, NotFound } from '@/features/ui'
 import { Box } from '@mui/material'
 
 import { Loading } from '@/features/ui'
@@ -12,7 +12,7 @@ const BlogPage = ({ blogId }) => {
     return <NotFound name="Blog" />
   }
 
-  const { data: blog, isLoading } = useGetBlogQuery(blogId)
+  const { data: blog, isLoading, isError } = useGetBlogQuery(blogId)
 
   if (isLoading) {
     return <Loading />
@@ -20,6 +20,10 @@ const BlogPage = ({ blogId }) => {
 
   if (!blog) {
     return <NotFound name="Blog" />
+  }
+
+  if (isError) {
+    return <ErrorBox message="Error on blogs retrieval" />
   }
 
   return (

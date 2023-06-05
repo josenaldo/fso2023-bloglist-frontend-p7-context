@@ -6,7 +6,7 @@ import { PageTitle } from '@/features/ui'
 const HomePage = () => {
   return (
     <Box>
-      <PageTitle>{`About ${appConfig.application.name}`}</PageTitle>
+      <PageTitle>{`Welcome to ${appConfig.application.name}`}</PageTitle>
       <Card>
         <CardContent>
           <Typography>{appConfig.application.description}</Typography>

@@ -21,7 +21,7 @@ export {
   useDeleteBlogMutation,
   useLikeBlogMutation,
   useCommentBlogMutation,
-} from './blog-service'
+} from './blog-api'
 
 export {
   getBlogs,

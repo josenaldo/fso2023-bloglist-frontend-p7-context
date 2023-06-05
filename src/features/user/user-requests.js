@@ -1,6 +1,7 @@
+import axios from 'axios'
+
 import { appConfig } from '@/data'
 import { getHeaders } from '@/features/api'
-import axios from 'axios'
 
 const baseURL = `${appConfig.application.BACKEND}/api/users`
 

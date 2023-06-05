@@ -8,7 +8,7 @@ const UsersPage = () => {
   const { data: users, isLoading, isError } = useGetUsersQuery()
 
   if (isError) {
-    return <ErrorBox message="Erro ao recuperar usuários" />
+    return <ErrorBox message="Error on users retrieval" />
   }
 
   return (

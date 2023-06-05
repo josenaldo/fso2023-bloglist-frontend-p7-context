@@ -11,7 +11,7 @@ const useQueryApi = ({ queryKey, queryFn, options }) => {
     queryFn: async () => {
       const token = getToken()
 
-      if (queryFn.length === 1) {
+      if (queryKey.length === 1) {
         return await queryFn(token)
       }
 
@@ -23,17 +23,22 @@ const useQueryApi = ({ queryKey, queryFn, options }) => {
 
 const useMutationApi = ({
   queryKey,
-  fetcher,
+  queryFn,
   buildSuccessMessage,
   buildErrorMessage,
   options,
 }) => {
+  const { getToken } = useAuth()
   const queryClient = useQueryClient()
   const { dispatch, setNotification, setErrorNotification, LEVELS } =
     useNotification()
 
   return useMutation({
-    mutationFn: fetcher,
+    mutationFn: async (args) => {
+      const token = getToken()
+
+      return await queryFn({ ...args, token })
+    },
     onSuccess: (data) => {
       queryClient.invalidateQueries([queryKey[0]])
       if (queryKey.length > 1) {

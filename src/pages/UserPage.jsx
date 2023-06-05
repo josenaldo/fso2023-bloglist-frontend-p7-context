@@ -1,4 +1,4 @@
-import { PageTitle } from '@/features/ui'
+import { ErrorBox, PageTitle } from '@/features/ui'
 import { Box } from '@mui/material'
 
 import { User, useGetUserProfileQuery } from '@/features/user'
@@ -12,7 +12,15 @@ const UserPage = ({ username }) => {
     return <Box>Invalid username</Box>
   }
 
-  const { data: user, isLoading } = useGetUserProfileQuery({ username })
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useGetUserProfileQuery({ username })
+
+  if (isError) {
+    return <ErrorBox message="Error on user profile retrieval" />
+  }
 
   return (
     <Box>

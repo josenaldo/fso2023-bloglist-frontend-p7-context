@@ -1,22 +1,13 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { Box, Card, CardActions, CardContent, TextField } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 
 import { useCreateBlogMutation } from '@/features/blog'
-import {
-  useSetErrorNotification,
-  useSetNotification,
-  NOTIFICATION_TYPES,
-} from '@/features/notification'
+
 import { CardTitle } from '@/features/ui'
 
 const BlogForm = () => {
-  const dispatch = useDispatch()
-  const [createBlog, { isLoading }] = useCreateBlogMutation()
-
-  const setErrorNotification = useSetErrorNotification()
-  const setNotification = useSetNotification()
+  const { mutate: createBlog, isLoading } = useCreateBlogMutation()
 
   const [title, setTitle] = React.useState('')
   const [author, setAuthor] = React.useState('')
@@ -24,30 +15,13 @@ const BlogForm = () => {
 
   const handleCreateBlog = async (event) => {
     event.preventDefault()
-    try {
-      const blog = { title, author, url }
-      const newBlog = await createBlog(blog).unwrap()
 
-      dispatch(
-        setNotification({
-          type: NOTIFICATION_TYPES.SUCCESS,
-          message: 'New blog added',
-          details: `A new blog added: '${newBlog.title}'`,
-        })
-      )
+    const blog = { title, author, url }
+    createBlog({ blog })
 
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-    } catch (error) {
-      dispatch(
-        setErrorNotification({
-          message: 'Error creating blog. Please try again.',
-          details: error.errorMessage,
-          error,
-        })
-      )
-    }
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (

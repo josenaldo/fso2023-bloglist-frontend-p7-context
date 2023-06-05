@@ -4,40 +4,18 @@ import { Box, Card, CardActions, CardContent, TextField } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 
 import { useCommentBlogMutation } from '@/features/blog'
-import {
-  useSetNotification,
-  useSetErrorNotification,
-  NOTIFICATION_TYPES,
-} from '@/features/notification'
 
 import { CardTitle } from '@/features/ui'
 
 const BlogCommentForm = ({ blog }) => {
-  const setNotification = useSetNotification()
-  const setErrorNotification = useSetErrorNotification()
-  const [commentBlog, { isLoading }] = useCommentBlogMutation()
+  const { mutate: commentBlog, isLoading } = useCommentBlogMutation()
 
   const [content, setContent] = useState('')
 
   const handleCommentBlog = async (event) => {
     event.preventDefault()
-    try {
-      await commentBlog({ id: blog.id, content }).unwrap()
-
-      setNotification({
-        type: NOTIFICATION_TYPES.SUCCESS,
-        message: 'New comment added',
-        details: `A new comment added: '${content}'`,
-      })
-
-      setContent('')
-    } catch (error) {
-      setErrorNotification({
-        message: 'Error commenting blog. Please try again.',
-        details: error.errorMessage,
-        error,
-      })
-    }
+    commentBlog({ id: blog.id, content })
+    setContent('')
   }
 
   return (
