@@ -1,77 +1,184 @@
-import { api } from '@/features/api'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-const apiWithTag = api.enhanceEndpoints({ addTagTypes: ['Blogs'] })
+import { useNotification } from '@/features/notification'
+import {
+  getBlogs,
+  getBlog,
+  createBlog,
+  updateBlog,
+  removeBlog,
+  likeBlog,
+  commentBlog,
+} from '@/features/blog/'
 
-export const blogApi = apiWithTag.injectEndpoints({
-  endpoints: (builder) => ({
-    getBlogs: builder.query({
-      query: () => '/blogs/',
-      providesTags: (result) => {
-        const defaultBlogListTag = [{ type: 'Blogs', id: 'LIST' }]
+// eslint-disable-next-line no-unused-vars
+import { useQueryApi, useMutationApi } from '@/features/api'
 
-        if (!result) return defaultBlogListTag
+const useGetBlogsQuery = () => {
+  return useQuery({
+    queryKey: ['blogs'],
+    queryFn: getBlogs,
+  })
+}
 
-        const extractedBlogTags = result.map(({ id }) => ({
-          type: 'Blogs',
-          id,
-        }))
+const useGetBlogQuery = ({ id }) => {
+  return useQuery({
+    queryKey: ['blog', id],
+    queryFn: getBlog,
+  })
+}
 
-        extractedBlogTags.push({ type: 'Blogs', id: 'LIST' })
+const useCreateBlogMutation = () => {
+  const queryClient = useQueryClient()
+  const { dispatch, setNotification, setErrorNotification, LEVELS } =
+    useNotification()
 
-        return extractedBlogTags
-      },
-    }),
-    getBlog: builder.query({
-      query: (id) => `/blogs/${id}`,
-      providesTags: (result, error, id) => [{ type: 'Blogs', id }],
-    }),
-    createBlog: builder.mutation({
-      query: (blog) => ({
-        url: '/blogs',
-        method: 'POST',
-        body: blog,
-      }),
-      invalidatesTags: [{ type: 'Blogs', id: 'LIST' }],
-    }),
-    updateBlog: builder.mutation({
-      query: ({ id, ...blog }) => ({
-        url: `/blogs/${id}`,
-        method: 'PUT',
-        body: blog,
-      }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Blogs', id }],
-    }),
-    deleteBlog: builder.mutation({
-      query: (id) => ({
-        url: `/blogs/${id}`,
-        method: 'DELETE',
-      }),
-      invalidatesTags: (result, error, id) => [{ type: 'Blogs', id }],
-    }),
-    likeBlog: builder.mutation({
-      query: (id) => ({
-        url: `/blogs/${id}/like`,
-        method: 'POST',
-      }),
-      invalidatesTags: (result, error, id) => [{ type: 'Blogs', id }],
-    }),
-    commentBlog: builder.mutation({
-      query: ({ id, content }) => ({
-        url: `/blogs/${id}/comments`,
-        method: 'POST',
-        body: {
-          content,
-        },
-      }),
-      invalidatesTags: (result, error, payload) => [
-        { type: 'Blogs', id: payload.id },
-      ],
-    }),
-  }),
-  overrideExisting: false,
-})
+  return useMutation({
+    mutationFn: createBlog,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['blogs'])
 
-export const {
+      dispatch(
+        setNotification({
+          type: LEVELS.SUCCESS,
+          message: 'Blog added successfully',
+          details: `Blog ${data.title} added successfully`,
+        })
+      )
+    },
+    onError: (error) => {
+      dispatch(
+        setErrorNotification({
+          message: 'Error',
+          details: 'Error creating blog. Please try again.',
+          error,
+        })
+      )
+    },
+  })
+}
+
+const useUpdateBlogMutation = () => {
+  const queryClient = useQueryClient()
+  const { dispatch, setNotification, setErrorNotification, LEVELS } =
+    useNotification()
+
+  return useMutation({
+    mutationFn: updateBlog,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['blogs'])
+      queryClient.invalidateQueries(['blogs', data.id])
+
+      dispatch(
+        setNotification({
+          type: LEVELS.SUCCESS,
+          message: 'Blog updated successfully',
+          details: `Blog ${data.title} updated successfully`,
+        })
+      )
+    },
+    onError: (error) => {
+      dispatch(
+        setErrorNotification({
+          message: 'Error',
+          details: 'Error uptdating blog. Please try again.',
+          error,
+        })
+      )
+    },
+  })
+}
+const useDeleteBlogMutation = () => {
+  const queryClient = useQueryClient()
+  const { dispatch, setNotification, setErrorNotification, LEVELS } =
+    useNotification()
+
+  return useMutation({
+    mutationFn: removeBlog,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['blogs'])
+
+      dispatch(
+        setNotification({
+          type: LEVELS.SUCCESS,
+          message: 'Blog removed successfully',
+          details: `Blog ${data.title} removed successfully`,
+        })
+      )
+    },
+    onError: (error) => {
+      dispatch(
+        setErrorNotification({
+          message: 'Error',
+          details: 'Error removing blog. Please try again.',
+          error,
+        })
+      )
+    },
+  })
+}
+const useLikeBlogMutation = () => {
+  const queryClient = useQueryClient()
+  const { dispatch, setNotification, setErrorNotification, LEVELS } =
+    useNotification()
+
+  return useMutation({
+    mutationFn: likeBlog,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['blogs'])
+      queryClient.invalidateQueries(['blogs', data.id])
+
+      dispatch(
+        setNotification({
+          type: LEVELS.SUCCESS,
+          message: 'Blog liked successfully',
+          details: `Blog ${data.title} liked successfully`,
+        })
+      )
+    },
+    onError: (error) => {
+      dispatch(
+        setErrorNotification({
+          message: 'Error',
+          details: 'Error liking blog. Please try again.',
+          error,
+        })
+      )
+    },
+  })
+}
+const useCommentBlogMutation = () => {
+  const queryClient = useQueryClient()
+  const { dispatch, setNotification, setErrorNotification, LEVELS } =
+    useNotification()
+
+  return useMutation({
+    mutationFn: commentBlog,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['blogs'])
+      queryClient.invalidateQueries(['blogs', data.id])
+
+      dispatch(
+        setNotification({
+          type: LEVELS.SUCCESS,
+          message: 'Blog commented successfully',
+          details: `Blog ${data.title} commented successfully`,
+        })
+      )
+    },
+    onError: (error) => {
+      dispatch(
+        setErrorNotification({
+          message: 'Error',
+          details: 'Error commenting blog. Please try again.',
+          error,
+        })
+      )
+    },
+  })
+}
+
+export {
   useGetBlogsQuery,
   useGetBlogQuery,
   useCreateBlogMutation,
@@ -79,6 +186,4 @@ export const {
   useDeleteBlogMutation,
   useLikeBlogMutation,
   useCommentBlogMutation,
-} = blogApi
-
-export default blogApi
+}

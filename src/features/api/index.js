@@ -1,1 +1,2 @@
-export { default as api } from './api-service'
+export { useQueryApi, useMutationApi } from './api-service'
+export { getHeaders } from './api-utils'

@@ -13,6 +13,7 @@ export {
   useSetNotification,
   useSetErrorNotification,
   useRemoveNotification,
+  useNotification,
 } from './notification-context'
 
 export { NotificationContextProvider } from './notification-context-provider'

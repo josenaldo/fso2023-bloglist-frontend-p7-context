@@ -12,7 +12,7 @@ import UserMenu from './UserMenu'
 
 const NavBar = () => {
   const navigate = useNavigate()
-  const auth = useAuth()
+  const { user } = useAuth()
   const { mutate: logout } = useLogout()
 
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -53,14 +53,14 @@ const NavBar = () => {
 
           <Logo />
 
-          <DesktopMenu user={auth.user} logout={handleLogout} />
+          <DesktopMenu user={user} logout={handleLogout} />
         </Box>
 
-        <UserMenu user={auth.user} logout={handleLogout} />
+        <UserMenu user={user} logout={handleLogout} />
       </Toolbar>
 
       <MobileMenu
-        user={auth.user}
+        user={user}
         logout={handleLogout}
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}

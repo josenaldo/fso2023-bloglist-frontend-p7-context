@@ -1,9 +1,7 @@
-import { BlogList } from '@/features/blog'
 import React from 'react'
 
-import { BlogForm } from '@/features/blog'
+import { useGetBlogsQuery, BlogList, BlogForm } from '@/features/blog'
 import { PageTitle, Togglable, Loading } from '@/features/ui'
-import { useGetBlogsQuery } from '@/features/blog'
 import { useAuth } from '@/features/auth'
 
 const BlogsPage = () => {

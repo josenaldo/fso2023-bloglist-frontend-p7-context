@@ -14,7 +14,6 @@ export { default as BlogImage } from './BlogImage'
 export { default as BlogActions } from './BlogActions'
 
 export {
-  default as blogApi,
   useGetBlogsQuery,
   useGetBlogQuery,
   useCreateBlogMutation,
@@ -23,3 +22,13 @@ export {
   useLikeBlogMutation,
   useCommentBlogMutation,
 } from './blog-service'
+
+export {
+  getBlogs,
+  getBlog,
+  createBlog,
+  updateBlog,
+  removeBlog,
+  likeBlog,
+  commentBlog,
+} from './blog-requests'

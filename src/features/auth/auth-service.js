@@ -8,6 +8,7 @@ import {
   useSetErrorNotification,
   useNotificationDispatch,
 } from '@/features/notification'
+import { useNavigate } from 'react-router-dom'
 
 const login = async (credentials) => {
   const { data } = await axios.post(
@@ -19,6 +20,7 @@ const login = async (credentials) => {
 
 const useLogin = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const notificationDispatch = useNotificationDispatch()
   const setNotification = useSetNotification()
   const setErrorNotification = useSetErrorNotification()
@@ -38,6 +40,8 @@ const useLogin = () => {
           message: 'Login successful',
         })
       )
+
+      navigate('/')
     },
     onError: (error) => {
       notificationDispatch(
@@ -95,7 +99,11 @@ const useAuth = () => {
 
   const user = queryClient.getQueryData(['user'])
 
-  return { user: user }
+  const getToken = () => {
+    return user?.token
+  }
+
+  return { user: user, getToken }
 }
 
 export { useLogin, useLogout, useAuth, getLoggedUser }

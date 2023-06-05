@@ -122,3 +122,13 @@ export const removeNotification = () => {
 export const useRemoveNotification = () => {
   return removeNotification
 }
+
+export const useNotification = () => {
+  return {
+    notification: useNotificationValue(),
+    dispatch: useNotificationDispatch(),
+    setNotification: useSetNotification(),
+    setErrorNotification: useSetErrorNotification(),
+    LEVELS: NOTIFICATION_TYPES,
+  }
+}

@@ -1,9 +1,6 @@
 export { default as UserList } from './UserList.jsx'
 export { default as User } from './User.jsx'
 
-export {
-  useGetUsersQuery,
-  useGetUserQuery,
-  useGetUserProfileQuery,
-  default as userApi,
-} from './user-service.js'
+export { useGetUsersQuery, useGetUserProfileQuery } from './user-service.js'
+
+export { getUsers, getUserProfile } from './user-requests.js'

@@ -1,14 +1,11 @@
 import React from 'react'
 
-import { useNavigate } from 'react-router-dom'
 import { useLogin } from '@/features/auth'
 
 import { LoadingButton } from '@mui/lab'
 import { Card, CardActions, CardContent, Stack, TextField } from '@mui/material'
 
 const LoginForm = () => {
-  const navigate = useNavigate()
-
   const { mutate: login, isLoading } = useLogin()
 
   const [username, setUsername] = React.useState('')
@@ -18,8 +15,6 @@ const LoginForm = () => {
     event.preventDefault()
 
     await login({ username, password })
-
-    navigate('/')
   }
 
   return (

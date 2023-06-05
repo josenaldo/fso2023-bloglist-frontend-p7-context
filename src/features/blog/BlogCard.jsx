@@ -1,5 +1,4 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 
 import { Box, Card, CardActions, CardContent } from '@mui/material'
 
@@ -12,6 +11,7 @@ import {
   BlogActions,
 } from '@/features/blog'
 import {
+  useNotificationDispatch,
   useSetNotification,
   useSetErrorNotification,
   NOTIFICATION_TYPES,
@@ -19,11 +19,11 @@ import {
 import { YesNoDialog } from '@/features/ui'
 
 const BlogCard = ({ blog, blogOwner }) => {
-  const dispatch = useDispatch()
+  const dispatch = useNotificationDispatch()
   const setNotification = useSetNotification()
   const setErrorNotification = useSetErrorNotification()
-  const [likeBlog, { isLoading: isLikeLoading }] = useLikeBlogMutation()
-  const [deleteBlog] = useDeleteBlogMutation()
+  const { mutate: likeBlog, isLoading: isLikeLoading } = useLikeBlogMutation()
+  const { mutate: deleteBlog } = useDeleteBlogMutation()
   const [openConfirmRemove, setOpenConfirmRemove] = React.useState(false)
 
   const { user: loggedUser } = useAuth()

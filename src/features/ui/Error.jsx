@@ -1,12 +1,12 @@
-import { Box } from '@mui/material'
+import { Alert, AlertTitle } from '@mui/material'
 
-const NotFound = ({ name }) => {
+const ErrorBox = ({ message }) => {
   return (
-    <Box>
-      <h3>Error</h3>
-      <p>Message: {name}</p>
-    </Box>
+    <Alert severity="error" variant="outlined">
+      <AlertTitle>Error</AlertTitle>
+      <p>Message: {message}</p>
+    </Alert>
   )
 }
 
-export default NotFound
+export default ErrorBox

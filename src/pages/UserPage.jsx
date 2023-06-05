@@ -12,7 +12,7 @@ const UserPage = ({ username }) => {
     return <Box>Invalid username</Box>
   }
 
-  const { data: user, isLoading } = useGetUserProfileQuery(username)
+  const { data: user, isLoading } = useGetUserProfileQuery({ username })
 
   return (
     <Box>
