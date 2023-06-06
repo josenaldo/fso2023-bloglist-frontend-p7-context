@@ -3,7 +3,7 @@ import ApiIcon from '@mui/icons-material/Api'
 
 const appConfig = {
   application: {
-    name: 'Bloglist P7 Context',
+    name: 'Bloglist P7 React Query',
     version: '0.0.1',
     description:
       'This project is a feature-rich bloglist application developed as part of the Full Stack Open course, part 7. Developed by Josenaldo de Oliveira Matos Filho, it is licensed under the MIT License. ',
@@ -12,7 +12,7 @@ const appConfig = {
       {
         name: 'Frontend',
         icon: WebIcon,
-        url: 'https://github.com/josenaldo/fso2023-bloglist-frontend-p7',
+        url: 'https://github.com/josenaldo/fso2023-bloglist-frontend-p7-context',
       },
       {
         name: 'Backend',
