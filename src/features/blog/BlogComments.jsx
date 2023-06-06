@@ -1,4 +1,4 @@
-import { SessionTitle, Togglable } from '@/features/ui'
+import { SectionTitle, Togglable } from '@/features/ui'
 import {
   Avatar,
   Box,
@@ -16,7 +16,7 @@ const BlogComments = ({ blog }) => {
 
   return (
     <Box>
-      <SessionTitle>Comments</SessionTitle>
+      <SectionTitle>Comments</SectionTitle>
 
       <Stack gap={5}>
         <Togglable buttonLabel="Add a comment" refs={formRef}>
