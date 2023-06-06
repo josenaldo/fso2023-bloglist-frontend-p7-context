@@ -10,9 +10,9 @@ import {
 } from '@/features/blog'
 
 const Blog = ({ blog }) => {
-  const { user: loggedUser } = useAuth()
+  const { user } = useAuth()
   const owner = blog.user
-  const isBlogOwner = owner?.username === loggedUser?.username
+  const isBlogOwner = owner?.username === user?.username
 
   if (!blog) {
     return null
@@ -36,9 +36,11 @@ const Blog = ({ blog }) => {
           <BlogHeader blog={blog} />
           <BlogDetails blog={blog} blogOwner={owner} />
         </CardContent>
-        <CardActions>
-          <BlogActions blog={blog} isBlogOwner={isBlogOwner} />
-        </CardActions>
+        {user && (
+          <CardActions>
+            <BlogActions blog={blog} isBlogOwner={isBlogOwner} />
+          </CardActions>
+        )}
       </Card>
 
       <BlogComments blog={blog} />

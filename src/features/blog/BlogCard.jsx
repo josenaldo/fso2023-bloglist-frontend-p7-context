@@ -4,9 +4,9 @@ import { useAuth } from '@/features/auth'
 import { BlogImage, BlogCardHeader, BlogActions } from '@/features/blog'
 
 const BlogCard = ({ blog, blogOwner }) => {
-  const { user: loggedUser } = useAuth()
+  const { user } = useAuth()
   const owner = blogOwner || blog?.user || null
-  const isBlogOwner = owner?.username === loggedUser?.username
+  const isBlogOwner = owner?.username === user?.username
 
   if (!blog) {
     return null
@@ -30,9 +30,11 @@ const BlogCard = ({ blog, blogOwner }) => {
           <BlogCardHeader blog={blog} />
         </CardContent>
 
-        <CardActions>
-          <BlogActions blog={blog} isBlogOwner={isBlogOwner} />
-        </CardActions>
+        {user && (
+          <CardActions>
+            <BlogActions blog={blog} isBlogOwner={isBlogOwner} />
+          </CardActions>
+        )}
       </Card>
     </Box>
   )
