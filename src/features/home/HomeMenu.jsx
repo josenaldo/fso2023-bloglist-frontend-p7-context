@@ -21,7 +21,7 @@ const HomeMenu = ({ pages, user }) => {
         <>
           {!page.protected || user ? (
             <Card key={page.id}>
-              <CardActionArea href={page.to} componente={Link}>
+              <CardActionArea to={page.to} componente={Link}>
                 <CardContent
                   sx={{
                     display: 'flex',
